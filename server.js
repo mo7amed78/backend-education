@@ -31,7 +31,7 @@ mongoose
 //middleware
 app.use(cors({
     origin: [
-    "https://eduscan-rho.vercel.app/",  
+    "https://eduscan-rho.vercel.app",  
     "http://localhost:3000"
     
   ],
