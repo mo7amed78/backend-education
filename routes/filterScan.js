@@ -3,8 +3,7 @@ const router = express.Router();
 const {Scan} = require('../models/Scan');
 const { Lecture } = require('../models/Lecture');
 const {User} = require('../models/User');
-const {egyptTime} = require('../utils/timeEdit');
-const {convertTimeDate_ToDate} = require('../utils/timeEdit');
+const {egyptTime,getTodayRange} = require('../utils/timeEdit');
 const verifyToken = require('../middlewares/verifyToken');
 const isAdmin = require('../middlewares/isAdmin');
 const asyncHandler = require('express-async-handler');
@@ -13,21 +12,17 @@ const asyncHandler = require('express-async-handler');
 
 /**
  * @desc get all scans for (1st & 2nd secondary) & 3rd Preparatory all day
- * @route /api/filter?today
+ * @route /api/filter
  * @method GET
  * @access private (admin only)
  */
 router.get('/',verifyToken,isAdmin,asyncHandler( async(req,res)=>{
 
-    const {today} = req.query; 
 
-    const date = today? new Date(today) : new Date();
-
-    const filter = {};
-
-    if(date){
-        filter.scannedAt = convertTimeDate_ToDate(date);
+    const filter = {
+        scannedAt:getTodayRange()
     };
+
 
 
     const filterScan = await Scan.find(filter).populate("userId","firstName lastName email stage")

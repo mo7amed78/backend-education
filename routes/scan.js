@@ -3,8 +3,7 @@ const router = express.Router();
 const {Scan,validateUserScanned} = require('../models/Scan');
 const {User} = require('../models/User');
 const {Lecture,ActiveLecture} = require('../models/Lecture');
-const{egyptTime} = require('../utils/timeEdit');
-const {convertTimeDate_ToDate} = require('../utils/timeEdit');
+const{egyptTime,getTodayRange} = require('../utils/timeEdit');
 const verifyToken = require('../middlewares/verifyToken');
 const isAdmin = require('../middlewares/isAdmin');
 const asyncHandler = require('express-async-handler');
@@ -66,8 +65,7 @@ router.post('/',verifyToken,asyncHandler( async(req,res)=>{
     const AttendRecord = await userScaned.save();
 
     const filter = {};
-    const today = AttendRecord.scannedAt;
-    filter.scannedAt = convertTimeDate_ToDate(today);
+    filter.scannedAt = getTodayRange();
     const updated_num_present = await Scan.countDocuments(filter);
     const totalStudent = await User.countDocuments({isAdmin:false});
     

@@ -6,7 +6,7 @@ const { User } = require('../models/User');
 const verifyToken = require('../middlewares/verifyToken');
 const isAdmin = require('../middlewares/isAdmin');
 const asyncHandler = require('express-async-handler');
-const {convertTimeDate_ToDate , egyptTime} = require('../utils/timeEdit');
+const {getTodayRange , egyptTime} = require('../utils/timeEdit');
 const socket = require('../utils/socket');
 
 
@@ -47,14 +47,13 @@ router.post('/',verifyToken,isAdmin,asyncHandler(async (req,res)=>{
 
 
 
-    const today = result.createdAt;
     const filterCountSessionPerDay = {};
     const filterAtendedRecord ={};
 
-    filterCountSessionPerDay.createdAt = convertTimeDate_ToDate(today);
+    filterCountSessionPerDay.createdAt = getTodayRange();
     const updated_num_session = await Lecture.countDocuments(filterCountSessionPerDay);
 
-    filterAtendedRecord.scannedAt = convertTimeDate_ToDate(today);
+    filterAtendedRecord.scannedAt = getTodayRange();
     const update_present = await Scan.countDocuments(filterAtendedRecord);
     const totalStudent = await User.countDocuments({isAdmin:false});
 
@@ -83,17 +82,15 @@ router.post('/',verifyToken,isAdmin,asyncHandler(async (req,res)=>{
  */
 router.get('/',verifyToken,isAdmin,asyncHandler(async (req,res)=>{
 
-    const {today} = req.query;
-    
-    const date = today? new Date(today) :null;
 
-    const filterCountSessionPerDay = {};
-    if(date){
-        filterCountSessionPerDay.createdAt = convertTimeDate_ToDate(date);
-    }
+    const filterCountSessionPerDay = {
+        createdAt:getTodayRange()
+    };
 
-    const get_lecs_records = await Lecture.find(filterCountSessionPerDay).sort({ createdAt:-1 });
-    
+    const get_lecs_records = await Lecture.find().sort({ createdAt:-1 });
+    const numOfSessionPerDay = await Lecture.countDocuments(filterCountSessionPerDay);
+   
+
     if(get_lecs_records.length === 0){
         return res.status(200).json({
             message:"لا يوجد محاضرات حالياً",
@@ -109,7 +106,7 @@ router.get('/',verifyToken,isAdmin,asyncHandler(async (req,res)=>{
 
 
     res.json({
-        countSession:get_lecs.length,
+        countSession:numOfSessionPerDay,
         get_lecs
     });
 }));

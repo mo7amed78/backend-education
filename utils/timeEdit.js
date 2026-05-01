@@ -1,3 +1,10 @@
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 const egyptTime = (date)=>{
     return date.toLocaleString("en-GB",{
         timeZone: "Africa/Cairo",
@@ -12,28 +19,17 @@ const egyptTime = (date)=>{
 };
 
 
-const convertTimeDate_ToDate = (date)=>{
-    const today = new Date(date.toLocaleString("en-US", {
-        timeZone: "Africa/Cairo"
-    }));
-
-
-
-    const startDay = new Date(today);
-    startDay.setHours(0,0,0,0);
-    const endDay = new Date(startDay);
-    endDay.setDate(startDay.getDate()+1);
-
+const getTodayRange = ()=>{
+    const start = dayjs().tz("Africa/Cairo").startOf("day").toDate();
+    const end = dayjs().tz("Africa/Cairo").endOf("day").toDate();
 
     return {
-        $gte:startDay,
-        $lt:endDay
+        $gte: start,
+        $lte: end
     };
 }
 
-
-
 module.exports = {
     egyptTime,
-    convertTimeDate_ToDate
+    getTodayRange
 };
