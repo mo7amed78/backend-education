@@ -30,7 +30,14 @@ mongoose
 
 //middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [
+    "https://eduscan-rho.vercel.app/",  
+    "http://localhost:3000"
+    
+  ],
+  credentials: true
+}));
 app.use(logger);
 
 // Static folders
