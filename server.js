@@ -29,7 +29,6 @@ mongoose
 
 
 //middleware
-app.use(express.json());
 app.use(cors({
     origin: [
     "https://eduscan-rho.vercel.app/",  
@@ -38,6 +37,8 @@ app.use(cors({
   ],
   credentials: true
 }));
+
+app.use(express.json());
 app.use(logger);
 
 // Static folders
