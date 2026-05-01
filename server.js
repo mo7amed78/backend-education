@@ -40,7 +40,7 @@ app.use(cors({
 app.use(logger);
 
 // Static folders
-app.use(express.static(path.join(__dirname, '../frontend')));
+// app.use(express.static(path.join(__dirname, '../frontend')));
 
 
 
@@ -55,17 +55,17 @@ app.use('/api/export',exportPath);
 
 // Routes لصفحات HTML
 // استبدال اسماء الروابط لما الموقع ينزل
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html')); 
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/index.html')); 
+// });
 
-app.get('/scan-page',(req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/scan.html'));
-});
+// app.get('/scan-page',(req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/scan.html'));
+// });
 
-app.get('/dashboard-page', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
-});
+// app.get('/dashboard-page', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
+// });
 
 
 // connect to socket.io
