@@ -1,0 +1,33 @@
+{
+  "name": "absence-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "overrides": {
+    "chokidar": "3.5.3",
+    "glob-parent": "6.0.2",
+    "minimatch": "10.2.1",
+    "semver": "7.5.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "exceljs": "^4.4.0",
+    "express": "^5.2.1",
+    "express-async-handler": "^1.2.0",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.5",
+    "nodemon": "^3.1.11",
+    "socket.io": "^4.8.3"
+  }
+}
