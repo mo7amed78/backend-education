@@ -22,7 +22,7 @@ router.get('/profile',verifyToken,asyncHandler( async (req,res)=>{
     const UserProfile = await User.findById(req.user.id).select("-password  -_id  -isAdmin  -__v");
 
     if(!UserProfile){
-       return res.status(404).json({message:"غير موجود"});
+       return res.status(401).json({message:"غير موجود"});
         
     }
 
